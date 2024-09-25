@@ -58,13 +58,16 @@ const App = () => {
         setYear={setYear}
         getMovieData={getMovieData}
       />
-      <Pagination
-        handleNextPage={handleNextPage}
-        handlePrevPage={handlePrevPage}
-        currPage={currPage}
-        totalResults={totalResults}
-        handlePageClick={handlePageClick}
-      />
+      {data.length !== 0 && (
+        <Pagination
+          handleNextPage={handleNextPage}
+          handlePrevPage={handlePrevPage}
+          currPage={currPage}
+          totalResults={totalResults}
+          handlePageClick={handlePageClick}
+        />
+      )}
+
       <MovieRenderer loading={loading} data={data} searchInput={searchInput} />
     </div>
   );
