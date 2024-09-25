@@ -15,15 +15,15 @@ const MovieRenderer = (props) => {
   };
 
   return (
-    <div className=" w-full mt-12">
+    <div className="w-full mt-12">
       {loading ? (
         <div className="flex justify-center items-center w-full h-full">
           <div className="text-white text-xl">Loading...</div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
-          {data?.Search && data?.Search.length > 0 ? (
-            data?.Search.map((item, index) => (
+      ) : data?.Search ? (
+        data.Search.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
+            {data.Search.map((item, index) => (
               <div
                 key={index}
                 className="border border-gray-600 rounded-md shadow-md flex flex-col p-2"
@@ -48,12 +48,14 @@ const MovieRenderer = (props) => {
                   Info
                 </button>
               </div>
-            ))
-          ) : (
-            <div className="text-white text-center w-full">
-              No results found
-            </div>
-          )}
+            ))}
+          </div>
+        ) : (
+          <div className="text-white text-center w-full">No results found</div>
+        )
+      ) : (
+        <div className="text-white text-center w-full">
+          Please enter a query to search for movies
         </div>
       )}
 
