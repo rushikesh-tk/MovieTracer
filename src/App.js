@@ -58,6 +58,7 @@ const App = () => {
         setYear={setYear}
         getMovieData={getMovieData}
       />
+
       {data.length !== 0 && (
         <Pagination
           handleNextPage={handleNextPage}

@@ -1,13 +1,21 @@
+import { Heart } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import {
+  addMovieToFavourites,
+  isMoviePresent,
+  removeMovieFromFavourites,
+} from "../utils";
 
 const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
 const MovieModal = ({ selectedMovie, closeModal }) => {
   const [loading, setLoading] = useState(false);
   const [movieData, setMovieData] = useState({});
+  const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     getMovieDetails();
+    setIsFav(isMoviePresent(selectedMovie));
   }, [selectedMovie]);
 
   const getMovieDetails = async () => {
@@ -39,6 +47,17 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
     imdbRating,
   } = movieData;
 
+  const toggleFavorite = () => {
+    console.log("movie...", selectedMovie, Title);
+    if (isFav) {
+      removeMovieFromFavourites(selectedMovie);
+      setIsFav(false);
+    } else {
+      addMovieToFavourites(selectedMovie, Title);
+      setIsFav(true);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-full overflow-y-auto flex flex-col sm:flex-row">
@@ -61,7 +80,7 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
               />
             </div>
 
-            <div className="sm:w-1/2 sm:ml-6 text-left text-white mt-12 relative ">
+            <div className="sm:w-1/2 sm:ml-6 text-left text-white mt-12 relative">
               <p className="mb-2">
                 <strong>Year:</strong> {Year}
               </p>
@@ -71,23 +90,19 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
               <p className="mb-2">
                 <strong>Runtime:</strong> {Runtime}
               </p>
-
               <p className="mb-2">
                 <strong>IMDb Rating:</strong> {imdbRating}
               </p>
-
               {BoxOffice && (
                 <p className="mb-2">
                   <strong>Box Office:</strong> {BoxOffice}
                 </p>
               )}
-
               {Plot && (
                 <p className="mb-4">
                   <strong>Plot:</strong> {Plot}
                 </p>
               )}
-
               {Ratings && Ratings.length > 0 && (
                 <div className="mb-4">
                   <h3 className="text-xl font-semibold mb-2">Ratings:</h3>
@@ -101,12 +116,21 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
                 </div>
               )}
 
-              <button
-                onClick={closeModal}
-                className="bg-red-600 hover:bg-red-700  text-white py-2 px-4 rounded-md mt-6 absolute bottom-1 right-1"
-              >
-                Close
-              </button>
+              <div className="absolute bottom-1 right-1 flex gap-2">
+                <button
+                  className="py-2 px-4 rounded-md mt-6"
+                  onClick={toggleFavorite}
+                >
+                  <Heart fill={isFav ? "red" : "gray"} stroke="5px" />
+                </button>
+
+                <button
+                  onClick={closeModal}
+                  className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md mt-6"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </>
         )}
