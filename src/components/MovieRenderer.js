@@ -51,7 +51,7 @@ const MovieRenderer = (props) => {
             ))
           ) : (
             <div className="text-white text-center w-full">
-              No results found.
+              No results found
             </div>
           )}
         </div>

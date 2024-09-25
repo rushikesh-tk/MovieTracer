@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchBox from "./components/SearchBox";
 import MovieRenderer from "./components/MovieRenderer";
+import Pagination from "./components/Pagination";
 
 const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
@@ -11,6 +12,11 @@ const App = () => {
   const [year, setYear] = useState("");
   const [currPage, setCurrPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [totalResults, setTotalResults] = useState("");
+
+  useEffect(() => {
+    getMovieData();
+  }, [currPage, videoType, year]);
 
   const getMovieData = async () => {
     try {
@@ -21,13 +27,23 @@ const App = () => {
       );
 
       const data = await res.json();
-
+      console.log(data);
       setData(data);
+      setTotalResults(data?.totalResults);
     } catch (error) {
       console.log("Error : ", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleNextPage = () => {
+    const lastPage = Math.ceil(totalResults / 10);
+    setCurrPage((prev) => (prev === lastPage ? prev : prev + 1));
+  };
+
+  const handlePrevPage = () => {
+    setCurrPage((prev) => (prev === 1 ? prev : prev - 1));
   };
 
   return (
@@ -38,8 +54,12 @@ const App = () => {
         setYear={setYear}
         getMovieData={getMovieData}
       />
-
-      <MovieRenderer loading={loading} data={data} />
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevPage={handlePrevPage}
+        currPage={currPage}
+      />
+      <MovieRenderer loading={loading} data={data} searchInput={searchInput} />
     </div>
   );
 };
