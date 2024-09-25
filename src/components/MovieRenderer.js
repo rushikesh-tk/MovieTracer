@@ -7,7 +7,7 @@ const MovieRenderer = (props) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleInfoClick = (movie) => {
-    setSelectedMovie(movie);
+    setSelectedMovie(movie?.imdbID);
   };
 
   const closeModal = () => {
@@ -34,7 +34,7 @@ const MovieRenderer = (props) => {
                   src={
                     item?.Poster !== "N/A"
                       ? item?.Poster
-                      : "https://via.placeholder.com/150"
+                      : "https://via.placeholder.com/350"
                   }
                   alt={item?.Title}
                 />

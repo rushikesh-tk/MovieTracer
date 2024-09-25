@@ -46,6 +46,10 @@ const App = () => {
     setCurrPage((prev) => (prev === 1 ? prev : prev - 1));
   };
 
+  const handlePageClick = (pageNumber) => {
+    setCurrPage(pageNumber);
+  };
+
   return (
     <div className="bg-gray-900 min-h-screen w-full flex flex-col justify-start items-center text-white p-10">
       <SearchBox
@@ -58,6 +62,8 @@ const App = () => {
         handleNextPage={handleNextPage}
         handlePrevPage={handlePrevPage}
         currPage={currPage}
+        totalResults={totalResults}
+        handlePageClick={handlePageClick}
       />
       <MovieRenderer loading={loading} data={data} searchInput={searchInput} />
     </div>
