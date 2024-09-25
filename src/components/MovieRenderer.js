@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import MovieModal from "./MovieModal";
 
 const MovieRenderer = (props) => {
   const { loading, data } = props;
+
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const handleInfoClick = (movie) => {
+    setSelectedMovie(movie);
+  };
+
+  const closeModal = () => {
+    setSelectedMovie(null);
+  };
 
   return (
     <div className=" w-full mt-12">
@@ -30,7 +41,10 @@ const MovieRenderer = (props) => {
                 <div className="text-start text-xl font-semibold mb-2">
                   {item?.Title}
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white  py-1 px-3 rounded-md mt-auto self-end text-sm">
+                <button
+                  onClick={() => handleInfoClick(item)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded-md mt-auto self-end text-sm"
+                >
                   Info
                 </button>
               </div>
@@ -41,6 +55,10 @@ const MovieRenderer = (props) => {
             </div>
           )}
         </div>
+      )}
+
+      {selectedMovie && (
+        <MovieModal selectedMovie={selectedMovie} closeModal={closeModal} />
       )}
     </div>
   );
