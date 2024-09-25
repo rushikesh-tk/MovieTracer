@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import { getFavourites, removeMovieFromFavourites } from "../utils";
 import FavModal from "./FavModal";
+import { toast } from "sonner";
 
 const SearchBox = (props) => {
   const { setSearchInput, setVideoType, setYear, getMovieData } = props;
   const [showModal, setShowModal] = useState(false);
   const [favourites, setFavourites] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     const favs = getFavourites();
     setFavourites(favs);
-  }, [showModal]);
+  }, [showModal, selectedMovie]);
 
   const handleRemoveFromFavourites = (movieId) => {
     removeMovieFromFavourites(movieId);
     setFavourites(favourites.filter((movie) => movie.movieId !== movieId));
+    toast.success("Movie removed from favourites");
   };
 
   return (
@@ -77,6 +80,8 @@ const SearchBox = (props) => {
           favourites={favourites}
           handleRemoveFromFavourites={handleRemoveFromFavourites}
           setShowModal={setShowModal}
+          selectedMovie={selectedMovie}
+          setSelectedMovie={setSelectedMovie}
         />
       )}
     </div>

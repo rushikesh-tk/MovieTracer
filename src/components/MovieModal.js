@@ -5,6 +5,7 @@ import {
   isMoviePresent,
   removeMovieFromFavourites,
 } from "../utils";
+import { toast } from "sonner";
 
 const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
@@ -52,9 +53,11 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
     if (isFav) {
       removeMovieFromFavourites(selectedMovie);
       setIsFav(false);
+      toast.success(`${Title} is removed from favourites`);
     } else {
       addMovieToFavourites(selectedMovie, Title);
       setIsFav(true);
+      toast.success(`${Title} is added to favourites`);
     }
   };
 

@@ -1,5 +1,24 @@
+import { useState } from "react";
+import MovieModal from "./MovieModal";
+
 const FavModal = (props) => {
-  const { favourites, handleRemoveFromFavourites, setShowModal } = props;
+  const {
+    favourites,
+    handleRemoveFromFavourites,
+    setShowModal,
+    selectedMovie,
+    setSelectedMovie,
+  } = props;
+
+  //   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const handleInfoClick = (id) => {
+    setSelectedMovie(id);
+  };
+
+  const closeModal = () => {
+    setSelectedMovie(null);
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -15,16 +34,25 @@ const FavModal = (props) => {
                 className="flex justify-between items-center mb-2"
               >
                 <span className="text-white">{movie.name}</span>
-                <button
-                  className="text-red-500 hover:text-red-700"
-                  onClick={() => handleRemoveFromFavourites(movie.movieId)}
-                >
-                  Remove
-                </button>
+                <div>
+                  <button
+                    onClick={() => handleInfoClick(movie.movieId)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-2 rounded-md mt-auto self-end text-sm"
+                  >
+                    View
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700 ml-2"
+                    onClick={() => handleRemoveFromFavourites(movie.movieId)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         )}
+
         <button
           className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md mt-4"
           onClick={() => setShowModal(false)}
@@ -32,6 +60,10 @@ const FavModal = (props) => {
           Close
         </button>
       </div>
+
+      {selectedMovie && (
+        <MovieModal selectedMovie={selectedMovie} closeModal={closeModal} />
+      )}
     </div>
   );
 };

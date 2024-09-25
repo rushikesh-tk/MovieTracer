@@ -26,7 +26,6 @@ const Pagination = (props) => {
         <button
           className="px-3 py-1 bg-gray-700 text-white rounded-md hover:bg-gray-600"
           onClick={handlePrevPage}
-          disabled={currPage === 1}
         >
           Prev
         </button>
@@ -36,7 +35,6 @@ const Pagination = (props) => {
         <button
           className="px-3 py-1 bg-gray-700 text-white rounded-md hover:bg-gray-600"
           onClick={handleNextPage}
-          disabled={currPage === totalPages}
         >
           Next
         </button>
