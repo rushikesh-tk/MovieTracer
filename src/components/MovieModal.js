@@ -6,6 +6,7 @@ import {
   removeMovieFromFavourites,
 } from "../utils";
 import { toast } from "sonner";
+import Motion from "./Motion";
 
 const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
@@ -62,7 +63,10 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <Motion
+      styles="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      duration="0.5"
+    >
       <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-full overflow-y-auto flex flex-col sm:flex-row">
         {loading ? (
           <div className="text-white text-xl text-center">Loading...</div>
@@ -138,7 +142,7 @@ const MovieModal = ({ selectedMovie, closeModal }) => {
           </>
         )}
       </div>
-    </div>
+    </Motion>
   );
 };
 

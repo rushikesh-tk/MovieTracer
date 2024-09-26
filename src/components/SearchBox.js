@@ -1,37 +1,22 @@
-import { useEffect, useState } from "react";
-import { getFavourites, removeMovieFromFavourites } from "../utils";
-import FavModal from "./FavModal";
-import { toast } from "sonner";
-
 const SearchBox = (props) => {
-  const { setSearchInput, setVideoType, setYear, getMovieData } = props;
-  const [showModal, setShowModal] = useState(false);
-  const [favourites, setFavourites] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-
-  useEffect(() => {
-    const favs = getFavourites();
-    setFavourites(favs);
-  }, [showModal, selectedMovie]);
-
-  const handleRemoveFromFavourites = (movieId) => {
-    removeMovieFromFavourites(movieId);
-    setFavourites(favourites.filter((movie) => movie.movieId !== movieId));
-    toast.success("Movie removed from favourites");
-  };
+  const { setSearchInput, setVideoType, setYear, getMovieData, setShowModal } =
+    props;
 
   return (
-    <div className="flex justify-between items-center w-full  p-3">
+    <>
       <div className="flex justify-center gap-3 items-center w-full">
         <input
-          className="h-10 w-3/5 text-black p-2 focus:outline-none rounded-md shadow-md"
+          className="h-10 w-3/5 text-black p-2 focus:outline-none rounded-md shadow-md focus:bg-gray-200 focus:outline-gray-400 px-4 font-medium"
           placeholder="Search..."
           onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") getMovieData();
+          }}
         />
 
         <select
           onChange={(e) => setVideoType(e.target.value)}
-          className="h-8 bg-gray-600 text-white text-center rounded-md p-2 focus:outline-none shadow-md flex justify-center items-center appearance-none pb-8"
+          className="h-10 bg-gray-600 hover:bg-gray-700 text-white text-center rounded-md shadow-md px-2"
         >
           <option value="" selected>
             Select Genre
@@ -42,7 +27,7 @@ const SearchBox = (props) => {
         </select>
 
         <select
-          className="h-8 bg-gray-600 text-white text-center rounded-md p-2 focus:outline-none shadow-md overflow-auto flex justify-center items-center appearance-none pb-8"
+          className="h-10 bg-gray-600 hover:bg-gray-700 text-white text-center rounded-md shadow-md px-2"
           onChange={(e) => setYear(e.target.value)}
         >
           <option value="" selected>
@@ -59,7 +44,7 @@ const SearchBox = (props) => {
         </select>
 
         <button
-          className="bg-gray-600 h-10 p-2 pt-4 pb-4 w-28 text-center flex justify-center items-center cursor-pointer rounded-md shadow-md"
+          className="bg-blue-600 hover:bg-blue-700 h-10 p-2 pt-4 pb-4 w-28 text-center flex justify-center items-center cursor-pointer rounded-md shadow-md"
           onClick={getMovieData}
         >
           Search
@@ -68,23 +53,13 @@ const SearchBox = (props) => {
 
       <div className="ml-auto">
         <button
-          className="bg-red-500 h-10 p-2 rounded-md shadow-md"
+          className="bg-red-600 hover:bg-red-700 h-10 p-2 rounded-md shadow-md"
           onClick={() => setShowModal(true)}
         >
           Favourites
         </button>
       </div>
-
-      {showModal && (
-        <FavModal
-          favourites={favourites}
-          handleRemoveFromFavourites={handleRemoveFromFavourites}
-          setShowModal={setShowModal}
-          selectedMovie={selectedMovie}
-          setSelectedMovie={setSelectedMovie}
-        />
-      )}
-    </div>
+    </>
   );
 };
 
